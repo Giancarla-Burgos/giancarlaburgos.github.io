@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Management | Giancarla Burgos</title>
+
+  <style>
+    :root {
+      --primary: #4b2e83;
+      --dark: #1a1a1a;
+      --muted: #666;
+      --light: #f8f8fb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+      color: var(--dark);
+      background: white;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      border-bottom: 1px solid #eee;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+
+    nav a {
+      text-decoration: none;
+      margin-left: 20px;
+      color: var(--dark);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    nav a:hover { color: var(--primary); }
+
+    .wrap {
+      max-width: 1000px;
+      margin: 70px auto 0;
+      padding: 0 24px 80px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.4rem);
+      margin: 0 0 12px;
+    }
+
+    .hero h1 span { color: var(--primary); }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 800px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 18px;
+      background: var(--primary);
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .section {
+      margin-top: 50px;
+    }
+
+    .section h2 {
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .section p {
+      color: var(--dark);
+      line-height: 1.7;
+    }
+
+    .card {
+      background: var(--light);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .back:hover { text-decoration: underline; }
+
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Giancarla Burgos</div>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="computer-architecture.html">Computer Architecture</a>
+    <a href="circuits.html">Circuits</a>
+    <a href="product-management.html">Product Management</a>
+    <a href="personal-projects.html">Personal Projects</a>
+    <a href="mailto:gburgos@harvard.college.edu">Contact</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1><span>Duolingo</span> — New Feature Proposal</h1>
+    <p>
+      A product proposal for Duolingo's APM/SPM application focused on improving conversational fluency through peer interaction and community-driven engagement.
+    </p>
+
+    <!-- REPLACE WITH YOUR ACTUAL FIGMA LINK -->
+    <a class="button" href="https://your-figma-link-here.com" target="_blank">
+      View Figma Prototype →
+    </a>
+
+    <a class="back" href="index.html">← Back to Home</a>
+  </section>
+
+  <section class="section">
+    <h2>Market Overview</h2>
+    <p>
+      The global language-learning market was valued at approximately $20B in 2023 and is projected to exceed $90B by 2030.
+      Rapid advances in AI tutoring, voice recognition, and adaptive learning are transforming how learners practice languages.
+      Despite this, users struggle with repetitive exercises, limited feedback specificity, and lack of authentic dialogue.
+      This creates opportunity for more human-centered, conversational features.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>Competitor Analysis</h2>
+
+    <div class="card">
+      <strong>Babbel</strong>
+      <ul>
+        <li>Structured lessons with cultural context</li>
+        <li>Adult professional audience</li>
+        <li>Paid-only model</li>
+        <li>Strong conversational realism, limited gamification</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <strong>HelloTalk</strong>
+      <ul>
+        <li>Peer-to-peer native speaker exchange</li>
+        <li>No structured curriculum</li>
+        <li>Experience depends on partner reliability</li>
+        <li>Strong immersion, weak quality control</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>User Personas</h2>
+
+    <div class="card">
+      <strong>Emma (36)</strong>
+      <p>
+        Nurse learning Spanish to better communicate with patients.
+        Pain points: generic feedback, limited real-life dialogue, lack of cultural nuance.
+        Likely paid user.
+      </p>
+    </div>
+
+    <div class="card">
+      <strong>Nate (19)</strong>
+      <p>
+        Student preparing for study abroad in China.
+        Pain points: anxiety about live conversation, repetitive drills, weak tone feedback.
+        Free-tier user who values gamification.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Proposed Features</h2>
+
+    <div class="card">
+      <strong>1. Language Match (Swipe-Based Peer Learning)</strong>
+      <p>
+        Pairs learners with native speakers through a swipe interface matching interests, fluency, and goals.
+        Builds conversational confidence through real dialogue.
+      </p>
+    </div>
+
+    <div class="card">
+      <strong>2. Peer Feedback & Rewards</strong>
+      <p>
+        Users rate sessions and earn badges or leaderboard points.
+        Encourages accountability and safe community interaction.
+      </p>
+    </div>
+
+    <div class="card">
+      <strong>3. Open Opportunities Board</strong>
+      <p>
+        Users post or join language exchanges, cultural calls, or speaking challenges.
+        Extends Duolingo beyond structured lessons.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Key Metrics</h2>
+    <ul>
+      <li><strong>Peer Conversation Rate</strong> — Measures adoption of new feature.</li>
+      <li><strong>30-Day Retention</strong> — Tracks sustained engagement.</li>
+      <li><strong>Average Session Length</strong> — Indicates learning depth and enjoyment.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  © 2024 Giancarla Burgos · Built with GitHub Pages
+</footer>
+
+</body>
+</html>
