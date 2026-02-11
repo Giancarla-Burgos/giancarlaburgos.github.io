@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Circuits | Giancarla Burgos</title>
+
+  <style>
+    :root{
+      --primary:#4b2e83;
+      --dark:#1a1a1a;
+      --muted:#666;
+      --light:#f8f8fb;
+      --border:#eee;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      color:var(--dark);
+      background:#fff;
+    }
+
+    nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:24px 48px;
+      border-bottom:1px solid var(--border);
+      flex-wrap:wrap;
+      gap:14px;
+    }
+    nav .logo{
+      font-weight:700;
+      font-size:1.1rem;
+      color:var(--primary);
+    }
+    nav a{
+      text-decoration:none;
+      margin-left:20px;
+      color:var(--dark);
+      font-weight:500;
+      white-space:nowrap;
+    }
+    nav a:hover{color:var(--primary);}
+
+    .wrap{
+      max-width:1000px;
+      margin:70px auto 0;
+      padding:0 24px 80px;
+    }
+
+    .hero h1{
+      font-size:clamp(2.4rem,5vw,3.4rem);
+      margin:0 0 12px;
+    }
+    .hero h1 span{color:var(--primary);}
+    .hero p{
+      font-size:1.08rem;
+      color:var(--muted);
+      max-width:850px;
+      line-height:1.7;
+      margin:0;
+    }
+
+    .section{margin-top:42px;}
+    .section h2{
+      color:var(--primary);
+      margin:0 0 14px;
+      font-size:1.5rem;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:18px;
+      margin-top:14px;
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+    }
+
+    .card h3{
+      margin:0 0 8px;
+      font-size:1.12rem;
+      color:var(--dark);
+    }
+
+    .meta{
+      color:var(--muted);
+      font-size:.98rem;
+      line-height:1.6;
+      margin:0 0 12px;
+    }
+
+    .pillrow{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 10px;}
+    .pill{
+      border:1px solid var(--border);
+      padding:7px 11px;
+      border-radius:999px;
+      font-weight:650;
+      font-size:.9rem;
+      background:#fafafa;
+    }
+
+    .shot{
+      margin-top:12px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      background:var(--light);
+    }
+    .shot img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
+    }
+    .shot .cap{
+      padding:12px 14px;
+      color:#555;
+      font-size:.95rem;
+      line-height:1.5;
+      background:#fff;
+    }
+
+    .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;}
+    .btn{
+      display:inline-block;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:650;
+      text-decoration:none;
+      border:2px solid var(--primary);
+      color:var(--primary);
+    }
+    .btn.primary{
+      background:var(--primary);
+      color:#fff;
+    }
+    .btn:hover{opacity:.92;}
+
+    .back{
+      display:inline-block;
+      margin-top:26px;
+      color:var(--primary);
+      font-weight:800;
+      text-decoration:none;
+    }
+    .back:hover{text-decoration:underline;}
+
+    footer{
+      text-align:center;
+      padding:40px 20px;
+      font-size:.9rem;
+      color:#888;
+      border-top:1px solid var(--border);
+      background:#fff;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="logo">Giancarla Burgos</div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="computer-architecture.html">Computer Architecture</a>
+      <a href="circuits.html">Circuits</a>
+      <a href="product-management.html">Product Management</a>
+      <a href="personal-projects.html">Personal Projects</a>
+      <a href="mailto:gburgos@harvard.college.edu">Contact</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1><span>Circuits</span></h1>
+      <p>
+        Selected ES 152 labs focusing on fundamentals + real measurement/simulation workflows.
+        Some documentation is intentionally brief while my portfolio is in progress.
+        <strong>Full details available upon request.</strong>
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Highlighted Labs</h2>
+
+      <div class="grid">
+        <!-- LAB 5 -->
+        <article class="card">
+          <h3>Op-Amps & Audio Signals (Multi-Stage Audio Chain)</h3>
+          <p class="meta">
+            Built an audio pipeline with an output amplifier to drive a speaker, input conditioning (AC coupling + tunable gain),
+            and a higher-order filter stage before integrating everything end-to-end. (Lab 5 summary + stages.) 
+          </p>
+          <div class="pillrow">
+            <span class="pill">Op-Amps</span>
+            <span class="pill">AC Coupling</span>
+            <span class="pill">Active/Passive Filters</span>
+            <span class="pill">Breadboard + Scope</span>
+          </div>
+
+          <!-- Optional: upload a photo to /images and enable this -->
+          <!--
+          <div class="shot">
+            <img src="images/lab5-audio.jpg" alt="Audio lab breadboard and scope" />
+            <div class="cap">Audio chain build + scope capture (replace with your photo).</div>
+          </div>
+          -->
+
+          <div class="links">
+            <!-- If you upload your lab PDF to your repo, link it like: assets/es152-lab5.pdf -->
+            <!-- <a class="btn" href="assets/es152-lab5.pdf" target="_blank">Lab PDF</a> -->
+            <a class="btn" href="mailto:gburgos@harvard.college.edu">Request full writeup</a>
+          </div>
+        </article>
+
+        <!-- LABS 6 & 7 -->
+        <article class="card">
+          <h3>R-2R DAC + SAR ADC (Arduino + Comparator)</h3>
+          <p class="meta">
+            Implemented a 4-bit R-2R ladder DAC and a SAR ADC loop using a comparator and Arduino GPIO control/readback.
+            Explored mixed-signal interfacing and stepwise approximation behavior. (Labs 6 & 7 overview.)
+          </p>
+          <div class="pillrow">
+            <span class="pill">R-2R Ladder</span>
+            <span class="pill">Comparator</span>
+            <span class="pill">Arduino GPIO</span>
+            <span class="pill">Mixed-Signal</span>
+          </div>
+
+          <!-- Optional photo -->
+          <!--
+          <div class="shot">
+            <img src="images/lab6-dac.jpg" alt="R-2R ladder DAC build" />
+            <div class="cap">DAC/ADC breadboard + measurements (replace with your photo).</div>
+          </div>
+          -->
+
+          <div class="links">
+            <!-- <a class="btn primary" href="assets/es152-lab6-7.pdf" target="_blank">Lab PDF</a> -->
+            <a class="btn" href="mailto:gburgos@harvard.college.edu">Request full writeup</a>
+          </div>
+        </article>
+
+        <!-- LAB 3 -->
+        <article class="card">
+          <h3>RLC Step Response (Time Domain: Under/Critical/Over Damping)</h3>
+          <p class="meta">
+            Studied resonance and damping by simulating and measuring an RLC step response across multiple resistance values,
+            comparing expected vs. observed behavior. (Lab 3 focus and setup.)
+          </p>
+          <div class="pillrow">
+            <span class="pill">RLC Transients</span>
+            <span class="pill">LTspice</span>
+            <span class="pill">Scope Measurement</span>
+            <span class="pill">System Damping</span>
+          </div>
+
+          <!-- Optional photo -->
+          <!--
+          <div class="shot">
+            <img src="images/lab3-rlc.jpg" alt="RLC breadboard and scope" />
+            <div class="cap">RLC step response capture (replace with your photo).</div>
+          </div>
+          -->
+
+          <div class="links">
+            <!-- <a class="btn" href="assets/es152-lab3.pdf" target="_blank">Lab PDF</a> -->
+            <a class="btn" href="mailto:gburgos@harvard.college.edu">Request full writeup</a>
+          </div>
+        </article>
+      </div>
+
+      <a class="back" href="index.html">← Back to Home</a>
+    </section>
+  </main>
+
+  <footer>
+    © 2024 Giancarla Burgos · Built with GitHub Pages
+  </footer>
+</body>
+</html>
