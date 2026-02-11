@@ -22,7 +22,6 @@
       color: #111;
     }
 
-    /* NAV (matches Home) */
     nav {
       display: flex;
       justify-content: space-between;
@@ -35,7 +34,6 @@
 
     nav a {
       text-decoration: none;
-      note: none;
       color: #111;
       margin-right: 18px;
       font-weight: 600;
@@ -60,7 +58,6 @@
       color: white;
     }
 
-    /* PAGE */
     .wrap {
       max-width: 1050px;
       margin: 64px auto 0;
@@ -158,10 +155,11 @@
       <a href="circuits.html">Circuits</a>
       <a href="product-management.html">Product Management</a>
       <a href="personal-projects.html">Personal Projects</a>
+      <a href="about.html">About</a>
     </div>
     <div class="nav-right">
-      <a href="https://github.com/YOURUSERNAME">GitHub</a>
-      <a href="mailto:you@email.com">Contact</a>
+      <a href="https://github.com/gia-burgos" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:gburgos@harvard.college.edu">Contact</a>
     </div>
   </nav>
 
@@ -174,11 +172,12 @@
       </p>
     </section>
 
+    <!-- Project 1: ALU -->
     <section class="card">
       <h2>ALU (32-bit) — Structural Verilog</h2>
       <p class="meta">
         Built an ALU supporting AND, ADD, SUB, SLT, SRL, SRA, SLL with an 8:1 result mux and standard flags.
-        (This matches the “final 8:1 result mux” mapping: AND/ADD/SUB/SLT/SRL/SRA/SLL.) :contentReference[oaicite:0]{index=0}
+        (Opcode mapping: AND/ADD/SUB/SLT/SRL/SRA/SLL.)
       </p>
 
       <div class="pillrow">
@@ -190,71 +189,347 @@
 
       <pre><code>`include "alu.svh"
 
-module STUDENT_alu(
-  input  logic [31:0] x,
-  input  logic [31:0] y,
-  input  logic [2:0]  op,
-  output logic [31:0] z,
-  output logic        zero, equal, overflow
-);
+module STUDENT_alu
+    (
+        input logic [31:0] x,
+        input logic [31:0] y,
+        input logic [2:0] op,
+        output logic [31:0] z,
+        output logic zero, equal, overflow
+    );
 
-  logic [31:0] z_and, z_add, z_sub, z_slt, z_srl, z_sra, z_sll;
-  logic cout_add, c31_add;
-  logic cout_sub, c31_sub, ov_sub;
+    logic [31:0] z_and;
+    and32 and_unit (.x(x), .y(y), .z(z_and));
 
-  // AND
-  and32 and_unit (.x(x), .y(y), .z(z_and));
+    logic [31:0] z_add;
+    logic cout_add, c31_add;
 
-  // ADD via CLA (needs cout + c31 exposed by CLA) :contentReference[oaicite:1]{index=1}
-  CLA add_unit_cla (.a(x), .b(y), .cin(1'b0), .s(z_add), .cout(cout_add), .c31(c31_add));
+    CLA add_unit_cla (
+        .a   (x),
+        .b   (y),
+        .cin (1'b0),
+        .s   (z_add),
+        .cout(cout_add),
+        .c31 (c31_add)
+    );
 
-  // SUB via CLA: x + ~y + 1  (build ~y structurally) :contentReference[oaicite:2]{index=2}
-  logic [31:0] y_inv;
-  genvar i;
-  generate
-    for (i=0; i<32; i++) begin : invert_y
-      not n (y_inv[i], y[i]);
-    end
-  endgenerate
-  CLA sub_unit_cla (.a(x), .b(y_inv), .cin(1'b1), .s(z_sub), .cout(cout_sub), .c31(c31_sub));
+    logic [31:0] y_inv;
+    genvar i;
+    generate
+        for (i = 0; i < 32; i++) begin : invert_y
+            not n (y_inv[i], y[i]);
+        end
+    endgenerate
 
-  // Overflow for SUB feeds SLT :contentReference[oaicite:3]{index=3}
-  overflow ov_sub_u (.c31(c31_sub), .cout(cout_sub), .ov(ov_sub));
+    logic [31:0] z_sub;
+    logic cout_sub, c31_sub, ov_sub;
 
-  // SLT uses SUB result + SUB overflow :contentReference[oaicite:4]{index=4}
-  slt32 slt_u (.z_sub(z_sub), .ov_sub(ov_sub), .z_slt(z_slt));
+    CLA sub_unit_cla (
+        .a   (x),
+        .b   (y_inv),
+        .cin (1'b1),
+        .s   (z_sub),
+        .cout(cout_sub),
+        .c31 (c31_sub)
+    );
 
-  // Shifters (already implemented structurally in your project) :contentReference[oaicite:5]{index=5}
-  srl srl_u (.x(x), .y(y), .z(z_srl));
-  sra sra_u (.x(x), .y(y), .z(z_sra));
-  sll sll_u (.x(x), .y(y), .z(z_sll));
+    logic [31:0] z_slt;
+    slt32 slt_u (
+        .z_sub(z_sub),
+        .ov_sub(ov_sub),
+        .z_slt(z_slt)
+    );
 
-  // Select ALU overflow based on op using 1-bit mux trees :contentReference[oaicite:6]{index=6}
-  logic c31_sel, cout_sel;
-  mux8_1bit_tree c31_mux (
-    .D0(1'b0), .D1(c31_add), .D2(c31_sub), .D3(1'b0),
-    .D4(1'b0), .D5(1'b0),    .D6(1'b0),    .D7(1'b0),
-    .S(op), .Y(c31_sel)
-  );
-  mux8_1bit_tree cout_mux (
-    .D0(1'b0), .D1(cout_add), .D2(cout_sub), .D3(1'b0),
-    .D4(1'b0), .D5(1'b0),     .D6(1'b0),     .D7(1'b0),
-    .S(op), .Y(cout_sel)
-  );
-  overflow ov_one (.c31(c31_sel), .cout(cout_sel), .ov(overflow));
+    overflow ov_sub_u (
+        .c31 (c31_sub),
+        .cout(cout_sub),
+        .ov  (ov_sub)
+    );
 
-  // zero/equal flags :contentReference[oaicite:7]{index=7}
-  zero32 zero_on_result (.z(z), .zero(zero));
-  equal  eq_xy_u        (.a(x), .b(y), .equal(equal));
+    logic c31_sel, cout_sel;
 
-  // Final 8:1 result mux mapping :contentReference[oaicite:8]{index=8}
-  mux8_32bit_tree result_mux (
-    .D0(z_and), .D1(z_add), .D2(z_sub), .D3(z_slt),
-    .D4(z_srl), .D5(z_sra), .D6(z_sll), .D7(32'b0),
-    .S(op), .Y(z)
-  );
+    mux8_1bit_tree c31_mux (
+        .D0(1'b0),
+        .D1(c31_add),
+        .D2(c31_sub),
+        .D3(1'b0),
+        .D4(1'b0), .D5(1'b0), .D6(1'b0), .D7(1'b0),
+        .S(op),
+        .Y(c31_sel)
+    );
+
+    mux8_1bit_tree cout_mux (
+        .D0(1'b0),
+        .D1(cout_add),
+        .D2(cout_sub),
+        .D3(1'b0),
+        .D4(1'b0), .D5(1'b0), .D6(1'b0), .D7(1'b0),
+        .S(op),
+        .Y(cout_sel)
+    );
+
+    overflow ov_one (.c31(c31_sel), .cout(cout_sel), .ov(overflow));
+
+    zero32 zero_on_result (.z(z), .zero(zero));
+    equal eq_xy_u (.a(x), .b(y), .equal(equal));
+
+    logic [31:0] z_srl, z_sra, z_sll;
+    srl srl_u (.x(x), .y(y), .z(z_srl));
+    sra sra_u (.x(x), .y(y), .z(z_sra));
+    sll sll_u (.x(x), .y(y), .z(z_sll));
+
+    mux8_32bit_tree result_mux (
+        .D0(z_and),
+        .D1(z_add),
+        .D2(z_sub),
+        .D3(z_slt),
+        .D4(z_srl),
+        .D5(z_sra),
+        .D6(z_sll),
+        .D7(32'b0),
+        .S(op),
+        .Y(z)
+    );
 
 endmodule</code></pre>
+
+      <a class="back" href="index.html">← Back to Home</a>
+    </section>
+
+    <!-- Project 2: Traffic Light Controller -->
+    <section class="card">
+      <h2>Traffic Light Controller — One-Hot Moore FSM (SystemVerilog)</h2>
+      <p class="meta">
+        Designed a one-hot Moore FSM traffic light controller driven by a 1 Hz tick and an external 5-bit down-counter.
+        Includes minimum green time, an extend window with early-cut when cross-traffic is present, interlock all-red windows, and pedestrian signals.
+      </p>
+
+      <div class="pillrow">
+        <span class="pill">Moore FSM</span>
+        <span class="pill">One-Hot Encoding</span>
+        <span class="pill">Timer Handshake</span>
+        <span class="pill">Pedestrian Signals</span>
+      </div>
+
+      <pre><code>// tlc.sv — Traffic Light Controller (Moore FSM, one-hot)
+// Timing is driven by an external 1 Hz down-counter (5-bit).
+// Green = 15 s minimum + up to 9 s extend window (early-cut allowed if the other direction has a car).
+`timescale 1ns/1ps
+`default_nettype none
+
+`include "tlc.svh" // brings in `LIGHT_* (RED/YELLOW/GREEN) and `PED_* macros
+
+module tlc (
+  input  wire       clk,
+  input  wire       clk_slow,
+  input  wire       rst,
+  input  wire       click_rst,
+  input  wire       car_ns,
+  input  wire       car_ew,
+  input  wire [4:0] timer_out,
+  output wire [4:0] timer_init,
+  output wire       timer_load,
+  output wire       timer_en,
+  output wire       timer_rst,
+  output wire [1:0] light_ns,
+  output wire [1:0] light_ew,
+  output wire [3:0] ped_sigs
+);
+
+  // === One-hot state indices (13 bits total) ===
+  localparam int S_ALL_RED_START  = 0;  // 5 s
+  localparam int S_NS_MIN_GREEN   = 1;  // 15 s
+  localparam int S_NS_EXT_GREEN   = 2;  // up to 9 s
+  localparam int S_NS_PED_FLASH   = 3;  // 6 s
+  localparam int S_NS_YELLOW      = 4;  // 4 s
+  localparam int S_NS_PED_RED     = 5;  // 1 s
+  localparam int S_ALL_RED_NS2EW  = 6;  // 2 s
+  localparam int S_EW_MIN_GREEN   = 7;  // 15 s
+  localparam int S_EW_EXT_GREEN   = 8;  // up to 9 s
+  localparam int S_EW_PED_FLASH   = 9;  // 6 s
+  localparam int S_EW_YELLOW      = 10; // 4 s
+  localparam int S_EW_PED_RED     = 11; // 1 s
+  localparam int S_ALL_RED_EW2NS  = 12; // 2 s
+
+  // === Duration constants (seconds) ===
+  localparam logic [4:0] D_START   = 5;
+  localparam logic [4:0] D_MINGRN  = 15;
+  localparam logic [4:0] D_EXTGRN  = 9;
+  localparam logic [4:0] D_FLASH   = 6;
+  localparam logic [4:0] D_YELLOW  = 4;
+  localparam logic [4:0] D_PEDRED  = 1;
+  localparam logic [4:0] D_ALLRED  = 2;
+
+  // === State register ===
+  logic [12:0] state, next;
+
+  // === click_rst edge-detect into the 1 Hz domain ===
+  logic click_rst_q;
+  always_ff @(posedge clk_slow) click_rst_q <= click_rst;
+  wire click_rst_pos = click_rst & ~click_rst_q;
+
+  wire rst_any = rst | click_rst_pos;
+  wire t0 = (timer_out == 5'd0);
+
+  // === Next-state logic ===
+  always_comb begin
+    next = state;
+
+    unique case (1'b1)
+      state[S_ALL_RED_START]: if (t0) next = (13'b1 << S_NS_MIN_GREEN);
+
+      // NS cycle
+      state[S_NS_MIN_GREEN]: if (t0)
+        next = (car_ew ? (13'b1 << S_NS_PED_FLASH) : (13'b1 << S_NS_EXT_GREEN));
+      state[S_NS_EXT_GREEN]: if (car_ew || t0) next = (13'b1 << S_NS_PED_FLASH);
+      state[S_NS_PED_FLASH]: if (t0) next = (13'b1 << S_NS_YELLOW);
+      state[S_NS_YELLOW]:    if (t0) next = (13'b1 << S_NS_PED_RED);
+      state[S_NS_PED_RED]:   if (t0) next = (13'b1 << S_ALL_RED_NS2EW);
+      state[S_ALL_RED_NS2EW]:if (t0) next = (13'b1 << S_EW_MIN_GREEN);
+
+      // EW cycle (mirror)
+      state[S_EW_MIN_GREEN]: if (t0)
+        next = (car_ns ? (13'b1 << S_EW_PED_FLASH) : (13'b1 << S_EW_EXT_GREEN));
+      state[S_EW_EXT_GREEN]: if (car_ns || t0) next = (13'b1 << S_EW_PED_FLASH);
+      state[S_EW_PED_FLASH]: if (t0) next = (13'b1 << S_EW_YELLOW);
+      state[S_EW_YELLOW]:    if (t0) next = (13'b1 << S_EW_PED_RED);
+      state[S_EW_PED_RED]:   if (t0) next = (13'b1 << S_ALL_RED_EW2NS);
+      state[S_ALL_RED_EW2NS]:if (t0) next = (13'b1 << S_NS_MIN_GREEN);
+
+      default: ;
+    endcase
+
+    if (rst_any) next = (13'b1 << S_ALL_RED_START);
+  end
+
+  // Duration ROM
+  function automatic [4:0] duration_for(input logic [12:0] s);
+    unique case (1'b1)
+      s[S_ALL_RED_START]:  duration_for = D_START;
+      s[S_NS_MIN_GREEN]:   duration_for = D_MINGRN;
+      s[S_NS_EXT_GREEN]:   duration_for = D_EXTGRN;
+      s[S_NS_PED_FLASH]:   duration_for = D_FLASH;
+      s[S_NS_YELLOW]:      duration_for = D_YELLOW;
+      s[S_NS_PED_RED]:     duration_for = D_PEDRED;
+      s[S_ALL_RED_NS2EW]:  duration_for = D_ALLRED;
+      s[S_EW_MIN_GREEN]:   duration_for = D_MINGRN;
+      s[S_EW_EXT_GREEN]:   duration_for = D_EXTGRN;
+      s[S_EW_PED_FLASH]:   duration_for = D_FLASH;
+      s[S_EW_YELLOW]:      duration_for = D_YELLOW;
+      s[S_EW_PED_RED]:     duration_for = D_PEDRED;
+      s[S_ALL_RED_EW2NS]:  duration_for = D_ALLRED;
+      default:             duration_for = D_START;
+    endcase
+  endfunction
+
+  // State reg + timer handshake (1 Hz)
+  logic [4:0] timer_init_r;
+  logic timer_load_r;
+
+  always_ff @(posedge clk_slow) begin
+    if (rst_any) begin
+      state <= (13'b1 << S_ALL_RED_START);
+      timer_init_r <= D_START;
+      timer_load_r <= 1'b1;
+    end else begin
+      state <= next;
+      timer_init_r <= duration_for(next);
+      timer_load_r <= (state != next);
+    end
+  end
+
+  assign timer_init = timer_init_r;
+  assign timer_load = timer_load_r;
+  assign timer_en   = 1'b1;
+  assign timer_rst  = 1'b0;
+
+  // Moore output decode
+  logic [1:0] light_ns_i, light_ew_i;
+  logic [3:0] ped_sigs_i;
+
+  always_comb begin
+    light_ns_i = `LIGHT_RED;
+    light_ew_i = `LIGHT_RED;
+    ped_sigs_i = `PED_NS_AMBER_EW_AMBER;
+
+    unique case (1'b1)
+      // All-red windows
+      state[S_ALL_RED_START],
+      state[S_ALL_RED_NS2EW],
+      state[S_ALL_RED_EW2NS]: begin
+        light_ns_i = `LIGHT_RED;
+        light_ew_i = `LIGHT_RED;
+        ped_sigs_i = `PED_NS_AMBER_EW_AMBER;
+      end
+
+      // NS movement
+      state[S_NS_MIN_GREEN],
+      state[S_NS_EXT_GREEN]: begin
+        light_ns_i = `LIGHT_GREEN;
+        light_ew_i = `LIGHT_RED;
+        ped_sigs_i = `PED_NS_WHITE_EW_AMBER;
+      end
+
+      state[S_NS_PED_FLASH]: begin
+        light_ns_i = `LIGHT_GREEN;
+        light_ew_i = `LIGHT_RED;
+        ped_sigs_i = `PED_NS_ORANGE_EW_AMBER;
+      end
+
+      state[S_NS_YELLOW]: begin
+        light_ns_i = `LIGHT_YELLOW;
+        light_ew_i = `LIGHT_RED;
+        ped_sigs_i = `PED_NS_ORANGE_EW_AMBER;
+      end
+
+      state[S_NS_PED_RED]: begin
+        light_ns_i = `LIGHT_YELLOW;
+        light_ew_i = `LIGHT_RED;
+        ped_sigs_i = `PED_NS_AMBER_EW_AMBER;
+      end
+
+      // EW movement
+      state[S_EW_MIN_GREEN],
+      state[S_EW_EXT_GREEN]: begin
+        light_ns_i = `LIGHT_RED;
+        light_ew_i = `LIGHT_GREEN;
+        ped_sigs_i = `PED_NS_AMBER_EW_WHITE;
+      end
+
+      state[S_EW_PED_FLASH]: begin
+        light_ns_i = `LIGHT_RED;
+        light_ew_i = `LIGHT_GREEN;
+        ped_sigs_i = `PED_NS_AMBER_EW_ORANGE;
+      end
+
+      state[S_EW_YELLOW]: begin
+        light_ns_i = `LIGHT_RED;
+        light_ew_i = `LIGHT_YELLOW;
+        ped_sigs_i = `PED_NS_AMBER_EW_ORANGE;
+      end
+
+      state[S_EW_PED_RED]: begin
+        light_ns_i = `LIGHT_RED;
+        light_ew_i = `LIGHT_YELLOW;
+        ped_sigs_i = `PED_NS_AMBER_EW_AMBER;
+      end
+
+      default: ;
+    endcase
+  end
+
+  assign light_ns = light_ns_i;
+  assign light_ew = light_ew_i;
+  assign ped_sigs = ped_sigs_i;
+
+`ifdef SIM
+  always_ff @(posedge clk_slow) if (!rst_any) assert ($onehot(state));
+  always_comb assert (!((light_ns_i == `LIGHT_GREEN) && (light_ew_i == `LIGHT_GREEN)));
+`endif
+
+endmodule
+
+`default_nettype wire</code></pre>
 
       <a class="back" href="index.html">← Back to Home</a>
     </section>
