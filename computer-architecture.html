@@ -1,540 +1,75 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Computer Architecture | Giancarla Burgos</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Computer Hardware | Portfolio</title>
   <style>
-    :root {
-      --primary: #6D28D9;   /* deep purple */
-      --bg: #ffffff;
-      --muted: #666;
-      --border: #eee;
-    }
+    body { font-family: Arial, sans-serif; margin: 60px auto; max-width: 950px; line-height: 1.6; color:#222; padding: 0 18px; }
+    header { margin-bottom: 28px; }
+    h1 { font-size: 34px; margin: 0 0 8px; }
+    p { margin: 8px 0; }
+    .subtle { color:#555; }
 
-    * { box-sizing: border-box; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 22px; }
+    .card { border: 1px solid #eee; border-radius: 10px; padding: 16px; background: #fff; box-shadow: 0 1px 8px rgba(0,0,0,0.04); }
+    .card h2 { font-size: 18px; margin: 0 0 8px; }
+    .tags { margin-top: 10px; }
+    .tag { display:inline-block; background:#f4f4f4; padding: 5px 10px; margin: 4px 6px 0 0; font-size: 13px; border-radius: 999px; }
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
-      background: var(--bg);
-      color: #111;
-    }
+    a { color:#222; text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 48px;
-      border-bottom: 1px solid var(--border);
-      gap: 24px;
-      flex-wrap: wrap;
-    }
+    .nav { margin-top: 26px; }
+    .nav a { display:inline-block; margin-right: 14px; color:#555; }
 
-    nav a {
-      text-decoration: none;
-      color: #111;
-      margin-right: 18px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    nav a:last-child { margin-right: 0; }
-
-    .nav-left { display: flex; align-items: center; flex-wrap: wrap; }
-    .nav-right { display: flex; align-items: center; gap: 16px; }
-
-    .nav-right a {
-      border: 2px solid var(--primary);
-      color: var(--primary);
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-weight: 700;
-    }
-
-    .nav-right a:hover {
-      background: var(--primary);
-      color: white;
-    }
-
-    .wrap {
-      max-width: 1050px;
-      margin: 64px auto 0;
-      padding: 0 24px 80px;
-    }
-
-    .title {
-      text-align: center;
-      margin-top: 56px;
-    }
-
-    .title h1 {
-      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-      line-height: 1.12;
-      margin: 0 0 14px;
-    }
-
-    .title h1 span { color: var(--primary); }
-
-    .title p {
-      margin: 0 auto;
-      max-width: 780px;
-      color: var(--muted);
-      font-size: 1.08rem;
-      line-height: 1.7;
-    }
-
-    .card {
-      margin: 40px auto 0;
-      max-width: 980px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 26px;
-    }
-
-    .card h2 {
-      margin: 0 0 8px;
-      font-size: 1.35rem;
-    }
-
-    .meta {
-      color: var(--muted);
-      margin: 0 0 16px;
-      line-height: 1.6;
-    }
-
-    .pillrow { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0 18px; }
-
-    .pill {
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: 650;
-      color: #222;
-      background: #fafafa;
-      font-size: 0.92rem;
-    }
-
-    pre {
-      margin: 0;
-      padding: 16px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: #0b0b0f;
-      color: #f3f3f3;
-      overflow: auto;
-      line-height: 1.5;
-      font-size: 0.92rem;
-    }
-
-    .back {
-      display: inline-block;
-      margin-top: 22px;
-      color: var(--primary);
-      font-weight: 800;
-      text-decoration: none;
-    }
-
-    .back:hover { text-decoration: underline; }
-
-    footer {
-      margin-top: 56px;
-      text-align: center;
-      color: #888;
-      font-size: 0.95rem;
-    }
+    footer { margin-top: 40px; color:#666; font-size: 14px; }
   </style>
 </head>
-
 <body>
-  <nav>
-    <div class="nav-left">
-      <a href="index.html">Home</a>
-      <a href="computer-architecture.html">Computer Architecture</a>
-      <a href="circuits.html">Circuits</a>
-      <a href="product-management.html">Product Management</a>
-      <a href="personal-projects.html">Personal Projects</a>
-      <a href="about.html">About</a>
+
+<header>
+  <h1>Computer Hardware</h1>
+  <p class="subtle">
+    A focused collection of digital design and computer architecture work, emphasizing clean structural HDL and datapath-level thinking.
+  </p>
+
+  <div class="nav">
+    <!-- Update these to match your real site structure -->
+    <a href="index.html">Main Portfolio</a>
+    <a href="computer-architecture.html">Hardware</a>
+  </div>
+</header>
+
+<section class="grid">
+  <article class="card">
+    <h2><a href="alu.html">32-bit ALU (SystemVerilog)</a></h2>
+    <p>
+      Structural ALU supporting arithmetic, logic, comparison, and shifts with full flag generation and opcode-controlled output selection.
+    </p>
+    <div class="tags">
+      <span class="tag">SystemVerilog</span>
+      <span class="tag">Datapath Design</span>
+      <span class="tag">CLA</span>
+      <span class="tag">Mux Trees</span>
     </div>
-    <div class="nav-right">
-      <a href="https://github.com/gia-burgos" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:gburgos@harvard.college.edu">Contact</a>
+  </article>
+
+  <!-- Add more hardware projects as you make them -->
+  <article class="card">
+    <h2>More projects (coming soon)</h2>
+    <p>
+      This section will grow with additional modules (register files, control logic, pipelining, caches, etc.).
+    </p>
+    <div class="tags">
+      <span class="tag">In Progress</span>
     </div>
-  </nav>
+  </article>
+</section>
 
-  <main class="wrap">
-    <section class="title">
-      <h1><span>Computer Architecture</span></h1>
-      <p>
-        Selected coursework + builds. Some details are intentionally limited while this portfolio is in progress.
-        <strong>Full project details available upon request.</strong>
-      </p>
-    </section>
+<footer>
+  <p>Tip: keep each project page short + visual (block diagrams, module list, tests/results).</p>
+</footer>
 
-    <!-- Project 1: ALU -->
-    <section class="card">
-      <h2>ALU (32-bit) — Structural Verilog</h2>
-      <p class="meta">
-        Built an ALU supporting AND, ADD, SUB, SLT, SRL, SRA, SLL with an 8:1 result mux and standard flags.
-        (Opcode mapping: AND/ADD/SUB/SLT/SRL/SRA/SLL.)
-      </p>
-
-      <div class="pillrow">
-        <span class="pill">Verilog / SystemVerilog</span>
-        <span class="pill">Carry-Lookahead Adder (CLA)</span>
-        <span class="pill">Shifters: SRL/SRA/SLL</span>
-        <span class="pill">Flags: zero/equal/overflow</span>
-      </div>
-
-      <pre><code>`include "alu.svh"
-
-module STUDENT_alu
-    (
-        input logic [31:0] x,
-        input logic [31:0] y,
-        input logic [2:0] op,
-        output logic [31:0] z,
-        output logic zero, equal, overflow
-    );
-
-    logic [31:0] z_and;
-    and32 and_unit (.x(x), .y(y), .z(z_and));
-
-    logic [31:0] z_add;
-    logic cout_add, c31_add;
-
-    CLA add_unit_cla (
-        .a   (x),
-        .b   (y),
-        .cin (1'b0),
-        .s   (z_add),
-        .cout(cout_add),
-        .c31 (c31_add)
-    );
-
-    logic [31:0] y_inv;
-    genvar i;
-    generate
-        for (i = 0; i < 32; i++) begin : invert_y
-            not n (y_inv[i], y[i]);
-        end
-    endgenerate
-
-    logic [31:0] z_sub;
-    logic cout_sub, c31_sub, ov_sub;
-
-    CLA sub_unit_cla (
-        .a   (x),
-        .b   (y_inv),
-        .cin (1'b1),
-        .s   (z_sub),
-        .cout(cout_sub),
-        .c31 (c31_sub)
-    );
-
-    logic [31:0] z_slt;
-    slt32 slt_u (
-        .z_sub(z_sub),
-        .ov_sub(ov_sub),
-        .z_slt(z_slt)
-    );
-
-    overflow ov_sub_u (
-        .c31 (c31_sub),
-        .cout(cout_sub),
-        .ov  (ov_sub)
-    );
-
-    logic c31_sel, cout_sel;
-
-    mux8_1bit_tree c31_mux (
-        .D0(1'b0),
-        .D1(c31_add),
-        .D2(c31_sub),
-        .D3(1'b0),
-        .D4(1'b0), .D5(1'b0), .D6(1'b0), .D7(1'b0),
-        .S(op),
-        .Y(c31_sel)
-    );
-
-    mux8_1bit_tree cout_mux (
-        .D0(1'b0),
-        .D1(cout_add),
-        .D2(cout_sub),
-        .D3(1'b0),
-        .D4(1'b0), .D5(1'b0), .D6(1'b0), .D7(1'b0),
-        .S(op),
-        .Y(cout_sel)
-    );
-
-    overflow ov_one (.c31(c31_sel), .cout(cout_sel), .ov(overflow));
-
-    zero32 zero_on_result (.z(z), .zero(zero));
-    equal eq_xy_u (.a(x), .b(y), .equal(equal));
-
-    logic [31:0] z_srl, z_sra, z_sll;
-    srl srl_u (.x(x), .y(y), .z(z_srl));
-    sra sra_u (.x(x), .y(y), .z(z_sra));
-    sll sll_u (.x(x), .y(y), .z(z_sll));
-
-    mux8_32bit_tree result_mux (
-        .D0(z_and),
-        .D1(z_add),
-        .D2(z_sub),
-        .D3(z_slt),
-        .D4(z_srl),
-        .D5(z_sra),
-        .D6(z_sll),
-        .D7(32'b0),
-        .S(op),
-        .Y(z)
-    );
-
-endmodule</code></pre>
-
-      <a class="back" href="index.html">← Back to Home</a>
-    </section>
-
-    <!-- Project 2: Traffic Light Controller -->
-    <section class="card">
-      <h2>Traffic Light Controller — One-Hot Moore FSM (SystemVerilog)</h2>
-      <p class="meta">
-        Designed a one-hot Moore FSM traffic light controller driven by a 1 Hz tick and an external 5-bit down-counter.
-        Includes minimum green time, an extend window with early-cut when cross-traffic is present, interlock all-red windows, and pedestrian signals.
-      </p>
-
-      <div class="pillrow">
-        <span class="pill">Moore FSM</span>
-        <span class="pill">One-Hot Encoding</span>
-        <span class="pill">Timer Handshake</span>
-        <span class="pill">Pedestrian Signals</span>
-      </div>
-
-      <pre><code>// tlc.sv — Traffic Light Controller (Moore FSM, one-hot)
-// Timing is driven by an external 1 Hz down-counter (5-bit).
-// Green = 15 s minimum + up to 9 s extend window (early-cut allowed if the other direction has a car).
-`timescale 1ns/1ps
-`default_nettype none
-
-`include "tlc.svh" // brings in `LIGHT_* (RED/YELLOW/GREEN) and `PED_* macros
-
-module tlc (
-  input  wire       clk,
-  input  wire       clk_slow,
-  input  wire       rst,
-  input  wire       click_rst,
-  input  wire       car_ns,
-  input  wire       car_ew,
-  input  wire [4:0] timer_out,
-  output wire [4:0] timer_init,
-  output wire       timer_load,
-  output wire       timer_en,
-  output wire       timer_rst,
-  output wire [1:0] light_ns,
-  output wire [1:0] light_ew,
-  output wire [3:0] ped_sigs
-);
-
-  // === One-hot state indices (13 bits total) ===
-  localparam int S_ALL_RED_START  = 0;  // 5 s
-  localparam int S_NS_MIN_GREEN   = 1;  // 15 s
-  localparam int S_NS_EXT_GREEN   = 2;  // up to 9 s
-  localparam int S_NS_PED_FLASH   = 3;  // 6 s
-  localparam int S_NS_YELLOW      = 4;  // 4 s
-  localparam int S_NS_PED_RED     = 5;  // 1 s
-  localparam int S_ALL_RED_NS2EW  = 6;  // 2 s
-  localparam int S_EW_MIN_GREEN   = 7;  // 15 s
-  localparam int S_EW_EXT_GREEN   = 8;  // up to 9 s
-  localparam int S_EW_PED_FLASH   = 9;  // 6 s
-  localparam int S_EW_YELLOW      = 10; // 4 s
-  localparam int S_EW_PED_RED     = 11; // 1 s
-  localparam int S_ALL_RED_EW2NS  = 12; // 2 s
-
-  // === Duration constants (seconds) ===
-  localparam logic [4:0] D_START   = 5;
-  localparam logic [4:0] D_MINGRN  = 15;
-  localparam logic [4:0] D_EXTGRN  = 9;
-  localparam logic [4:0] D_FLASH   = 6;
-  localparam logic [4:0] D_YELLOW  = 4;
-  localparam logic [4:0] D_PEDRED  = 1;
-  localparam logic [4:0] D_ALLRED  = 2;
-
-  // === State register ===
-  logic [12:0] state, next;
-
-  // === click_rst edge-detect into the 1 Hz domain ===
-  logic click_rst_q;
-  always_ff @(posedge clk_slow) click_rst_q <= click_rst;
-  wire click_rst_pos = click_rst & ~click_rst_q;
-
-  wire rst_any = rst | click_rst_pos;
-  wire t0 = (timer_out == 5'd0);
-
-  // === Next-state logic ===
-  always_comb begin
-    next = state;
-
-    unique case (1'b1)
-      state[S_ALL_RED_START]: if (t0) next = (13'b1 << S_NS_MIN_GREEN);
-
-      // NS cycle
-      state[S_NS_MIN_GREEN]: if (t0)
-        next = (car_ew ? (13'b1 << S_NS_PED_FLASH) : (13'b1 << S_NS_EXT_GREEN));
-      state[S_NS_EXT_GREEN]: if (car_ew || t0) next = (13'b1 << S_NS_PED_FLASH);
-      state[S_NS_PED_FLASH]: if (t0) next = (13'b1 << S_NS_YELLOW);
-      state[S_NS_YELLOW]:    if (t0) next = (13'b1 << S_NS_PED_RED);
-      state[S_NS_PED_RED]:   if (t0) next = (13'b1 << S_ALL_RED_NS2EW);
-      state[S_ALL_RED_NS2EW]:if (t0) next = (13'b1 << S_EW_MIN_GREEN);
-
-      // EW cycle (mirror)
-      state[S_EW_MIN_GREEN]: if (t0)
-        next = (car_ns ? (13'b1 << S_EW_PED_FLASH) : (13'b1 << S_EW_EXT_GREEN));
-      state[S_EW_EXT_GREEN]: if (car_ns || t0) next = (13'b1 << S_EW_PED_FLASH);
-      state[S_EW_PED_FLASH]: if (t0) next = (13'b1 << S_EW_YELLOW);
-      state[S_EW_YELLOW]:    if (t0) next = (13'b1 << S_EW_PED_RED);
-      state[S_EW_PED_RED]:   if (t0) next = (13'b1 << S_ALL_RED_EW2NS);
-      state[S_ALL_RED_EW2NS]:if (t0) next = (13'b1 << S_NS_MIN_GREEN);
-
-      default: ;
-    endcase
-
-    if (rst_any) next = (13'b1 << S_ALL_RED_START);
-  end
-
-  // Duration ROM
-  function automatic [4:0] duration_for(input logic [12:0] s);
-    unique case (1'b1)
-      s[S_ALL_RED_START]:  duration_for = D_START;
-      s[S_NS_MIN_GREEN]:   duration_for = D_MINGRN;
-      s[S_NS_EXT_GREEN]:   duration_for = D_EXTGRN;
-      s[S_NS_PED_FLASH]:   duration_for = D_FLASH;
-      s[S_NS_YELLOW]:      duration_for = D_YELLOW;
-      s[S_NS_PED_RED]:     duration_for = D_PEDRED;
-      s[S_ALL_RED_NS2EW]:  duration_for = D_ALLRED;
-      s[S_EW_MIN_GREEN]:   duration_for = D_MINGRN;
-      s[S_EW_EXT_GREEN]:   duration_for = D_EXTGRN;
-      s[S_EW_PED_FLASH]:   duration_for = D_FLASH;
-      s[S_EW_YELLOW]:      duration_for = D_YELLOW;
-      s[S_EW_PED_RED]:     duration_for = D_PEDRED;
-      s[S_ALL_RED_EW2NS]:  duration_for = D_ALLRED;
-      default:             duration_for = D_START;
-    endcase
-  endfunction
-
-  // State reg + timer handshake (1 Hz)
-  logic [4:0] timer_init_r;
-  logic timer_load_r;
-
-  always_ff @(posedge clk_slow) begin
-    if (rst_any) begin
-      state <= (13'b1 << S_ALL_RED_START);
-      timer_init_r <= D_START;
-      timer_load_r <= 1'b1;
-    end else begin
-      state <= next;
-      timer_init_r <= duration_for(next);
-      timer_load_r <= (state != next);
-    end
-  end
-
-  assign timer_init = timer_init_r;
-  assign timer_load = timer_load_r;
-  assign timer_en   = 1'b1;
-  assign timer_rst  = 1'b0;
-
-  // Moore output decode
-  logic [1:0] light_ns_i, light_ew_i;
-  logic [3:0] ped_sigs_i;
-
-  always_comb begin
-    light_ns_i = `LIGHT_RED;
-    light_ew_i = `LIGHT_RED;
-    ped_sigs_i = `PED_NS_AMBER_EW_AMBER;
-
-    unique case (1'b1)
-      // All-red windows
-      state[S_ALL_RED_START],
-      state[S_ALL_RED_NS2EW],
-      state[S_ALL_RED_EW2NS]: begin
-        light_ns_i = `LIGHT_RED;
-        light_ew_i = `LIGHT_RED;
-        ped_sigs_i = `PED_NS_AMBER_EW_AMBER;
-      end
-
-      // NS movement
-      state[S_NS_MIN_GREEN],
-      state[S_NS_EXT_GREEN]: begin
-        light_ns_i = `LIGHT_GREEN;
-        light_ew_i = `LIGHT_RED;
-        ped_sigs_i = `PED_NS_WHITE_EW_AMBER;
-      end
-
-      state[S_NS_PED_FLASH]: begin
-        light_ns_i = `LIGHT_GREEN;
-        light_ew_i = `LIGHT_RED;
-        ped_sigs_i = `PED_NS_ORANGE_EW_AMBER;
-      end
-
-      state[S_NS_YELLOW]: begin
-        light_ns_i = `LIGHT_YELLOW;
-        light_ew_i = `LIGHT_RED;
-        ped_sigs_i = `PED_NS_ORANGE_EW_AMBER;
-      end
-
-      state[S_NS_PED_RED]: begin
-        light_ns_i = `LIGHT_YELLOW;
-        light_ew_i = `LIGHT_RED;
-        ped_sigs_i = `PED_NS_AMBER_EW_AMBER;
-      end
-
-      // EW movement
-      state[S_EW_MIN_GREEN],
-      state[S_EW_EXT_GREEN]: begin
-        light_ns_i = `LIGHT_RED;
-        light_ew_i = `LIGHT_GREEN;
-        ped_sigs_i = `PED_NS_AMBER_EW_WHITE;
-      end
-
-      state[S_EW_PED_FLASH]: begin
-        light_ns_i = `LIGHT_RED;
-        light_ew_i = `LIGHT_GREEN;
-        ped_sigs_i = `PED_NS_AMBER_EW_ORANGE;
-      end
-
-      state[S_EW_YELLOW]: begin
-        light_ns_i = `LIGHT_RED;
-        light_ew_i = `LIGHT_YELLOW;
-        ped_sigs_i = `PED_NS_AMBER_EW_ORANGE;
-      end
-
-      state[S_EW_PED_RED]: begin
-        light_ns_i = `LIGHT_RED;
-        light_ew_i = `LIGHT_YELLOW;
-        ped_sigs_i = `PED_NS_AMBER_EW_AMBER;
-      end
-
-      default: ;
-    endcase
-  end
-
-  assign light_ns = light_ns_i;
-  assign light_ew = light_ew_i;
-  assign ped_sigs = ped_sigs_i;
-
-`ifdef SIM
-  always_ff @(posedge clk_slow) if (!rst_any) assert ($onehot(state));
-  always_comb assert (!((light_ns_i == `LIGHT_GREEN) && (light_ew_i == `LIGHT_GREEN)));
-`endif
-
-endmodule
-
-`default_nettype wire</code></pre>
-
-      <a class="back" href="index.html">← Back to Home</a>
-    </section>
-
-    <footer>© Giancarla Burgos · Built with GitHub Pages</footer>
-  </main>
 </body>
 </html>
