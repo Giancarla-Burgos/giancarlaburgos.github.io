@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UI/UX Case Study | Restaurant Safety App</title>
+
+<style>
+  :root {
+    --primary: #4b2e83;
+    --dark: #1a1a1a;
+    --muted: #666;
+    --light: #f8f8fb;
+  }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+    color: var(--dark);
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid #eee;
+  }
+
+  nav a {
+    text-decoration: none;
+    margin-left: 20px;
+    color: var(--dark);
+  }
+
+  nav a:hover { color: var(--primary); }
+
+  .wrap {
+    max-width: 1000px;
+    margin: 70px auto;
+    padding: 0 24px 80px;
+  }
+
+  h1 span { color: var(--primary); }
+
+  h2 {
+    margin-top: 50px;
+    color: var(--primary);
+  }
+
+  p {
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 800px;
+  }
+
+  .card {
+    background: var(--light);
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 16px;
+  }
+
+  iframe {
+    width: 100%;
+    height: 800px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    margin-top: 16px;
+  }
+
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div><strong>Giancarla Burgos</strong></div>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="product-management.html">Product</a>
+    <a href="computer-architecture.html">Engineering</a>
+    <a href="model-training.html">Machine Learning</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<h1><span>Restaurant Safety App</span> — UX Case Study</h1>
+
+<p>
+A mobile app concept designed to help users with dietary restrictions quickly determine
+whether a restaurant is safe for them — reducing anxiety, decision fatigue, and social friction.
+</p>
+
+<!-- RESEARCH -->
+<h2>Research Insights</h2>
+
+<div class="card">
+  <strong>Key Pain Points Identified:</strong>
+  <ul>
+    <li>Lack of trustworthy dietary safety information</li>
+    <li>Decision fatigue from filtering unsafe options</li>
+    <li>Social discomfort when dining in groups</li>
+  </ul>
+</div>
+
+<div class="card">
+  <strong>User Persona: Melinda (24)</strong>
+  <p>
+    A young professional with multiple dietary restrictions who wants fast, trustworthy safety
+    information without needing to call restaurants or advocate repeatedly in group settings.
+  </p>
+</div>
+
+<div class="card">
+  <strong>Problem Statement</strong>
+  <p>
+    Users with dietary restrictions need an efficient and trustworthy way to assess restaurant safety
+    so they can make confident dining decisions without anxiety or social friction.
+  </p>
+</div>
+
+<!-- MODULE 1 -->
+<h2>Low-Fidelity Search Results Design</h2>
+
+<p>
+The search results page prioritizes scannability and visual clarity. Sorting controls are placed at the top,
+and dietary safety is visually distinguished between fully safe and partially accommodating restaurants.
+</p>
+
+<iframe src="GB - Restaurant App Initial LoFi.pdf"></iframe>
+
+<!-- MODULE 3 -->
+<h2>Interaction Design — Decision Flow</h2>
+
+<p>
+Designed a complete micro-interaction from entry → safety evaluation → decision.
+The flow emphasizes reducing uncertainty and supporting confident action.
+</p>
+
+<iframe src="GB - LoFi Restaurant App Navigation.pdf"></iframe>
+
+<h2>Design Principles Applied</h2>
+
+<ul>
+  <li><strong>Visual hierarchy:</strong> Safety information is prioritized over aesthetics.</li>
+  <li><strong>Anxiety reduction:</strong> Clear verdict language replaces vague “may accommodate” phrasing.</li>
+  <li><strong>Scannability:</strong> Card-based layout allows quick comparison.</li>
+  <li><strong>Decision support:</strong> “Safe for you” vs “Did not meet needs” reduces ambiguity.</li>
+</ul>
+
+</main>
+
+</body>
+</html>
