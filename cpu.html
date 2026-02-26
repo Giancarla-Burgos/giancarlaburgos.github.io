@@ -42,9 +42,9 @@
 
 <h2>Overview</h2>
 <p>
-Built a multicycle CPU by separating a reusable datapath from an FSM-based controller. Part 4B implements the baseline
-execute/writeback flow for R-type instructions, and Part 4C extends the same design to support immediates, memory access,
-and control flow (branches and jumps).
+Built a multicycle CPU by separating a reusable datapath from an FSM-based controller. The project follows a control-first workflow:
+plan the instruction paths and control signals, implement a working execute/writeback core, then extend the same architecture to support
+immediates, memory operations, and control flow (branches and jumps) — all without changing the fundamental datapath/control split.
 </p>
 
 <h2>Design → Implementation Progression</h2>
