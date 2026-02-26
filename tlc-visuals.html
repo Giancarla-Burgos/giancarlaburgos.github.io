@@ -1,51 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TLC Visuals | Brainstorming</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 60px auto; max-width: 1000px; line-height: 1.6; color:#222; padding: 0 20px; }
-    h1 { margin-bottom: 10px; }
-    .nav a { margin-right: 16px; color:#555; text-decoration:none; }
-    .nav a:hover { text-decoration: underline; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 18px; }
-    .card { border:1px solid #eee; border-radius: 12px; padding: 12px; background:#fff; }
-    img { width:100%; border-radius: 10px; border:1px solid #eee; }
-    .pdf { margin-top: 20px; border:1px solid #eee; border-radius: 12px; overflow:hidden; }
-    iframe { width:100%; height: 750px; border:0; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TLC Design Visuals | Brainstorming</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 60px auto;
+    max-width: 1000px;
+    line-height: 1.6;
+    color: #1e1e1e;
+    padding: 0 20px;
+}
+
+h1 { margin-bottom: 8px; }
+h2 { margin-top: 40px; border-bottom: 2px solid #eee; padding-bottom: 6px; }
+
+.nav a {
+    margin-right: 18px;
+    text-decoration: none;
+    color: #555;
+}
+
+.nav a:hover { text-decoration: underline; }
+
+.section {
+    margin-top: 25px;
+}
+
+iframe {
+    width: 100%;
+    height: 800px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.description {
+    color: #444;
+    margin-bottom: 15px;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="nav">
+<div class="nav">
     <a href="tlc.html">← Back to TLC</a>
     <a href="computer-architecture.html">Computer Hardware</a>
     <a href="index.html">Main Portfolio</a>
-  </div>
+</div>
 
-  <h1>TLC Visuals / Brainstorming</h1>
-  <p>Sketches and planning artifacts used to design the one-hot Moore FSM and timing behavior.</p>
+<h1>Traffic Light Controller — Design Visuals</h1>
+<p class="description">
+Early brainstorming, state planning, transition derivations, and final structured design documentation for the Moore FSM implementation.
+</p>
 
-  <!-- IMAGE GRID (optional) -->
-  <div class="grid">
-    <!-- Replace these with your actual images -->
-    <div class="card">
-      <p><strong>State diagram draft</strong></p>
-      <img src="images/tlc_state_draft.png" alt="State diagram draft">
-    </div>
+<!-- OLD / Brainstorm -->
+<h2>Initial Brainstorm & State Development</h2>
+<p class="description">
+Handwritten planning including timing rules, fairness constraints (max green window), 
+sensor handling, and early-cut logic design. Shows evolution from concept to one-hot structure.
+</p>
 
-    <div class="card">
-      <p><strong>Timing notes</strong></p>
-      <img src="images/tlc_timing_notes.png" alt="Timing notes">
-    </div>
-  </div>
+<iframe src="Lab3 OLD (INCLUDED FOR REFERENCE).pdf"></iframe>
 
-  <!-- PDF EMBED (optional) -->
-  <div class="pdf">
-    <!-- Put your brainstorming PDF in your site folder, e.g. tlc-brainstorm.pdf -->
-    <iframe src="tlc-brainstorm.pdf"></iframe>
-  </div>
+<!-- FINAL -->
+<h2>Final Structured Design Documentation</h2>
+<p class="description">
+Cleaned state definitions, timer-load mapping, output assignments, and finalized transition logic used for the implemented SystemVerilog module.
+</p>
+
+<iframe src="Lab3 final (1).pdf"></iframe>
 
 </body>
 </html>
