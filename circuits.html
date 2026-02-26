@@ -97,6 +97,19 @@
       margin:0 0 12px;
     }
 
+    .audio-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    
+    @media (max-width: 800px) {
+      .audio-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .pillrow{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 10px;}
     .pill{
       border:1px solid var(--border);
@@ -216,7 +229,25 @@
        
           </article>
        
+          <div class="audio-row">
 
+            <div class="shot">
+              <img src="Speaker Build.JPG" alt="Multi-stage audio amplifier breadboard build" />
+              <div class="cap">
+                End-to-end amplifier chain with AC coupling, gain stage, and active filter driving a low-impedance speaker load.
+                Circuit constructed and tuned on breadboard with stage-by-stage validation.
+              </div>
+            </div>
+          
+            <div class="shot">
+              <img src="Speaker Osc.JPG" alt="Oscilloscope waveform capture of audio signal" />
+              <div class="cap">
+                Measured stage responses on Tektronix oscilloscope to verify expected gain,
+                filtering behavior, and signal integrity across the audio chain.
+              </div>
+            </div>
+          
+          </div>
      
    
 
