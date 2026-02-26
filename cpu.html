@@ -46,74 +46,72 @@ execute/writeback flow for R-type instructions, and Part 4C extends the same des
 and control flow (branches and jumps).
 </p>
 
-<h2>Part 4B — Baseline CPU (R-type core)</h2>
+<h2>Design → Implementation Progression</h2>
 <div class="grid">
   <div class="card">
-    <h3>Architecture</h3>
-    <ul>
-      <li>Top-level <code>cpu</code> wires controller ↔ datapath and exposes debug signals (IR + regs)</li>
-      <li>Controller FSM cycles: <code>FETCH → DECODE → EXEC_R → WB_R → FETCH</code></li>
-      <li>ALU operation selected by <code>Funct</code> decode in EXEC_R</li>
-    </ul>
-    <p class="small">See the Part B controller state sequencing and Funct→ALUControl mapping. </p>
-  </div>
-  <div class="card">
-    <h3>Supported R-type ops</h3>
+    <h3>1) Control-First Design (FSM planning)</h3>
     <p>
-      add, sub, and, or, xor, nor, sll, srl, sra, slt
+      Started by mapping instruction classes onto a multicycle controller FSM and identifying
+      the required control signals per state (fetch, decode, execute, writeback, and memory/control-flow paths).
     </p>
     <p class="small">
-      Controller sets <code>ALUSrcA=1</code>, <code>ALUSrcB=00</code> and chooses <code>ALUControl</code> via Funct, then writes back rd.
+      The annotated FSM diagram and instruction checklist are in the visuals page.
+    </p>
+    <p><a href="cpu-visuals.html">Design Visuals (FSM + instruction plan) →</a></p>
+  </div>
+
+  <div class="card">
+    <h3>2) Working Core CPU</h3>
+    <p>
+      Implemented a multicycle datapath + controller split: the datapath holds state (PC, IR, A/B latches, ALUOut),
+      while the FSM drives control signals. Baseline execution supports R-type ALU ops via Funct decoding.
+    </p>
+    <p class="small">
+      Core state loop: <code>FETCH → DECODE → EXEC → WB → FETCH</code>.
     </p>
   </div>
 </div>
 
-<pre><code>// Part B controller state flow (excerpt)
+<pre><code>// Core multicycle flow (baseline)
 S0_FETCH:  next = S1_DECODE;
 S1_DECODE: next = (Opcode == `OP_RTYPE) ? S6_EXEC_R : S0_FETCH;
 S6_EXEC_R: next = S7_WB_R;
 S7_WB_R:   next = S0_FETCH;</code></pre>
 
-<h2>Part 4C — Extensions (ISA + memory + control flow)</h2>
+<h2>Final CPU Features</h2>
 <div class="grid">
   <div class="card">
-    <h3>New instruction support</h3>
+    <h3>Instruction Support</h3>
     <ul>
+      <li><strong>R-type:</strong> add, sub, and, or, xor, nor, sll, srl, sra, slt</li>
       <li><strong>I-type ALU:</strong> addi, andi, ori, xori, slti</li>
-      <li><strong>Memory:</strong> lw / sw via address compute + memory stage + writeback</li>
-      <li><strong>Control flow:</strong> beq, bne, j, jal, jr</li>
+      <li><strong>Memory:</strong> lw / sw</li>
+      <li><strong>Control flow:</strong> beq, bne, j, jal, jr (+ nop)</li>
     </ul>
   </div>
+
   <div class="card">
-    <h3>Key datapath behaviors</h3>
+    <h3>Datapath + Control Highlights</h3>
     <ul>
-      <li>Immediate generation: zero-extend for andi/ori/xori, sign-extend otherwise</li>
-      <li>Branch target precompute in DECODE (PC + imm&lt;&lt;2) stored in ALUOut</li>
-      <li>PC enable: <code>PCWrite | (Branch & takeBranch)</code>, where takeBranch handles beq/bne</li>
-      <li>JAL writes <code>$ra</code> with PC+4 while also performing jump</li>
+      <li><strong>Immediate selection:</strong> zero-extend for andi/ori/xori; sign-extend otherwise</li>
+      <li><strong>Branching:</strong> branch target precomputed in DECODE; PC enable uses opcode + Zero</li>
+      <li><strong>PC source mux:</strong> PC+4, branch target, jump target, or JR (rs)</li>
+      <li><strong>JAL:</strong> writes <code>$ra</code> with PC+4 while performing jump</li>
+      <li><strong>Memory interface:</strong> <code>IorD</code> selects PC vs ALUOut for mem address; SW asserts write enable only in store stage</li>
     </ul>
   </div>
 </div>
 
-<pre><code>// Part C branch control (excerpt)
+<pre><code>// Branch decision + PC enable (datapath excerpt)
 assign takeBranch = ((Opcode == `OP_BEQ) & Zero) |
                     ((Opcode == `OP_BNE) & ~Zero);
 assign PCEn = PCWrite | (Branch & takeBranch);
 
 // PCSrc selects: +4, branch target(ALUOut), jump target, or JR via A</code></pre>
 
-<h2>Design Visuals</h2>
-<p>
-Annotated FSM + datapath planning used while implementing the multicycle controller and control signals.
-</p>
-<!-- Put the PDF in your site directory with a simple name like cpu-visuals.pdf -->
-<iframe src="Lab_4b_Submission.pdf" style="width:100%; height:800px; border:1px solid #ddd; border-radius:12px;"></iframe>
-
 <h2>Verification</h2>
 <ul>
-  <li><strong>Part B:</strong> R-type focused test program (arithmetic/logic/shifts/slt)</li>
-  <li><strong>Part C:</strong> mixed program covering immediates + lw/sw + branches + jumps + jal/jr</li>
+  <li>R-type test program to validate ALU ops and shifts</li>
+  <li>Full mix test program: immediates + lw/sw + beq/bne + j/jal/jr</li>
 </ul>
-
-</body>
 </html>
