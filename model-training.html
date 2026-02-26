@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Synthetic → Real Object Detection | Portfolio</title>
+
+<style>
+  body { font-family: Arial, sans-serif; margin: 60px auto; max-width: 1050px; line-height: 1.65; color:#1e1e1e; padding: 0 20px; }
+  h1 { font-size: 36px; margin: 0 0 8px; }
+  .meta { color:#555; margin: 0 0 18px; }
+  h2 { margin-top: 42px; border-bottom: 2px solid #eee; padding-bottom: 6px; }
+  .tag { display:inline-block; background:#f4f4f4; padding: 6px 12px; margin: 4px 8px 4px 0; border-radius: 999px; font-size: 13px; }
+  pre { background:#f8f8f8; padding: 18px; border-radius: 10px; overflow-x:auto; border: 1px solid #eee; }
+  code { font-family: Consolas, Monaco, "Courier New", monospace; font-size: 13.5px; }
+  ul { margin-left: 20px; }
+  .nav a { margin-right: 18px; text-decoration:none; color:#555; }
+  .nav a:hover { text-decoration: underline; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 850px) { .grid { grid-template-columns: 1fr; } }
+  .card { border:1px solid #eee; border-radius: 12px; padding: 14px 16px; background:#fff; }
+  .small { color:#555; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="index.html">← Main Portfolio</a>
+  <a href="model-training-visuals.html">Visuals / Results →</a>
+</div>
+
+<h1>Synthetic → Real Object Detection</h1>
+<p class="meta"><strong>Unity Perception + SynthDet</strong> · <strong>YOLOv8</strong> · <strong>Weights & Biases</strong> · Domain gap analysis</p>
+
+<div>
+  <span class="tag">Synthetic Data</span>
+  <span class="tag">YOLOv8 Training</span>
+  <span class="tag">W&B Tracking</span>
+  <span class="tag">Domain Shift</span>
+  <span class="tag">Finetuning</span>
+</div>
+
+<h2>Overview</h2>
+<p>
+Trained an object detection model starting from synthetic labeled images generated in Unity (Perception + SynthDet),
+then evaluated on real images and finetuned to reduce synthetic-to-real domain mismatch.
+</p>
+
+<h2>Pipeline</h2>
+<div class="grid">
+  <div class="card">
+    <h3>1) Synthetic dataset generation</h3>
+    <ul>
+      <li>Built a Unity scene + RGB camera prefab for image capture</li>
+      <li>Generated and exported labeled data using Unity’s SynthDet</li>
+      <li>Converted annotations to YOLO format and split train/val (8:2)</li>
+    </ul>
+    <p class="small">Unity Perception + SynthDet workflow and image capture are documented in the visuals PDF.</p>
+  </div>
+
+  <div class="card">
+    <h3>2) Training + logging</h3>
+    <ul>
+      <li>Trained YOLOv8 on synthetic images</li>
+      <li>Logged metrics + visualizations in Weights & Biases</li>
+      <li>Reviewed detection examples and confusion matrix to diagnose errors</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Results</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Synthetic-only training (63 classes)</h3>
+    <p class="small">
+      Summary metrics reported after training on the synthetic dataset:
+    </p>
+    <ul>
+      <li><strong>mAP@0.5:</strong> 0.248</li>
+      <li><strong>mAP@0.5–0.95:</strong> 0.191</li>
+      <li><strong>Precision:</strong> 0.287</li>
+      <li><strong>Recall:</strong> 0.248</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Key finding: synthetic → real gap</h3>
+    <p>
+      Before finetuning with real images, the model produced <strong>no correct detections</strong> across all classes on real photos,
+      highlighting a strong domain shift (lighting, backgrounds, textures).
+    </p>
+  </div>
+</div>
+
+<h2>Finetuning with Real Images</h2>
+<p>
+To adapt the detector, I collected and labeled a real-image set and finetuned from the synthetic-trained checkpoint.
+</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>Real dataset</h3>
+    <ul>
+      <li>604 real images (uploaded + labeled)</li>
+      <li>Converted to YOLO format; split train/val (8:2)</li>
+      <li>Used full-image bounding boxes (each image corresponds to one class)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Finetune metrics (real images)</h3>
+    <ul>
+      <li><strong>mAP@0.5:</strong> ~0.252</li>
+      <li><strong>mAP@0.5–0.95:</strong> ~0.249</li>
+      <li><strong>Precision:</strong> ~0.289</li>
+      <li><strong>Recall:</strong> ~0.264</li>
+    </ul>
+    <p class="small">Performance is constrained by dataset size and per-class coverage.</p>
+  </div>
+</div>
+
+<h2>What I Learned</h2>
+<ul>
+  <li><strong>Domain shift is real:</strong> synthetic training alone didn’t transfer to real photos without finetuning.</li>
+  <li><strong>Data quality dominates:</strong> limited real samples per class and coarse “full-image” boxes constrain learning.</li>
+  <li><strong>Error analysis matters:</strong> confusion matrix + detection visualizations made failure modes obvious.</li>
+</ul>
+
+<h2>Next Steps</h2>
+<ul>
+  <li>Collect more real images for underperforming classes (increase per-class diversity)</li>
+  <li>Use tighter, object-level bounding boxes instead of full-image boxes</li>
+  <li>Targeted finetuning / class rebalancing for low-recall classes</li>
+</ul>
+
+<p class="small">
+See full visuals (confusion matrices, detection examples, and workflow screenshots) on the visuals page.
+</p>
+
+</body>
+</html>
